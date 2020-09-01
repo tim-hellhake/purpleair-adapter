@@ -1,0 +1,38 @@
+{
+  "name": "purpleair-adapter",
+  "display_name": "Purpleair",
+  "version": "0.1.0",
+  "description": "Add purpleair sensor nodes to your gateway",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tim-hellhake/purpleair-adapter.git"
+  },
+  "author": "Tim Hellhake",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/tim-hellhake/purpleair-adapter/issues"
+  },
+  "homepage": "https://github.com/tim-hellhake/purpleair-adapter#readme",
+  "files": [
+    "LICENSE",
+    "SHA256SUMS",
+    "lib/index.js",
+    "lib/purpleair-adapter.js",
+    "manifest.json"
+  ],
+  "dependencies": {
+    "geopoint": "^1.0.1",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/geopoint": "^1.0.1",
+    "@types/node": "^14.6.2",
+    "@types/node-fetch": "^2.5.7",
+    "typescript": "^4.0.2"
+  }
+}

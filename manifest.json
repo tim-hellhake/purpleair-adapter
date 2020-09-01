@@ -1,0 +1,47 @@
+{
+  "id": "purpleair-adapter",
+  "name": "Purpleair",
+  "short_name": "Purpleair",
+  "version": "0.1.0",
+  "description": "Add purpleair sensor nodes to your gateway",
+  "homepage_url": "https://github.com/tim-hellhake/purpleair-adapter#readme",
+  "author": "Tim Hellhake",
+  "license": "MPL-2.0",
+  "manifest_version": 1,
+  "gateway_specific_settings": {
+    "webthings": {
+      "exec": "{nodeLoader} {path}",
+      "primary_type": "adapter",
+      "strict_max_version": "*",
+      "strict_min_version": "0.10.0"
+    }
+  },
+  "options": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "latitude",
+        "longitude",
+        "radius"
+      ],
+      "properties": {
+        "latitude": {
+          "title": "The latitude of your position",
+          "type": "number"
+        },
+        "longitude": {
+          "title": "The longitude of your position",
+          "type": "number"
+        },
+        "radius": {
+          "title": "Radius around your position in kilometers",
+          "type": "number"
+        },
+        "debug": {
+          "title": "Enable debug logs",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
