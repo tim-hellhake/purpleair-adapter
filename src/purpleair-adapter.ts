@@ -22,8 +22,10 @@ class Purpleair extends Device {
   }
 
   update(sensor: any) {
-    if (sensor.pm_0) {
-      this.updateProperty("pm_0", 'PM2.5', sensor.pm_0);
+    const key = 'pm_1';
+
+    if (sensor[key]) {
+      this.updateProperty(key, 'PM2.5', sensor[key]);
     }
   }
 
@@ -84,7 +86,7 @@ export class PurpleairAdapter extends Adapter {
   }
 
   private async poll(nwlat: any, selat: any, nwlng: any, selng: any) {
-    const url = `https://www.purpleair.com/data.json?opt=1/mAQI/a0/cC0&fetch=true&nwlat=${nwlat}&selat=${selat}&nwlng=${nwlng}&selng=${selng}&fields=pm_0`;
+    const url = `https://www.purpleair.com/data.json?opt=1/mAQI/a0/cC0&fetch=true&nwlat=${nwlat}&selat=${selat}&nwlng=${nwlng}&selng=${selng}&fields=pm_1`;
 
     debug(`Calling ${url}`);
 
