@@ -19,6 +19,7 @@ class Purpleair extends Device {
     this['@context'] = 'https://iot.mozilla.org/schemas/';
     this['@type'] = [];
     this.name = sensor.Label;
+    this.update(sensor);
   }
 
   update(sensor: any) {
@@ -35,7 +36,10 @@ class Purpleair extends Device {
     if (!property) {
       debug(`Creating ${title} property for ${name} in ${this.name} (${this.id})`);
 
+      this["@type"].push('AirQualitySensor');
+
       property = this.createProperty(name, {
+        '@type': 'DensityProperty',
         type: 'number',
         title,
         readOnly: true
