@@ -2,7 +2,7 @@
   "id": "purpleair-adapter",
   "name": "Purpleair",
   "short_name": "Purpleair",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Add purpleair sensor nodes to your gateway",
   "homepage_url": "https://github.com/tim-hellhake/purpleair-adapter#readme",
   "author": "Tim Hellhake",
