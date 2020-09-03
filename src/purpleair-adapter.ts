@@ -136,8 +136,15 @@ export class PurpleairAdapter extends Adapter {
     try {
       json = JSON.parse(raw);
     } catch (e) {
-      console.error(`Invalid json response: ${raw}`);
-      throw e;
+      debug('Invalid json response received, trying to fix...');
+
+      try {
+        const fixed = raw.replace('"data":[],', '"data":[');
+        json = JSON.parse(fixed);
+      } catch {
+        console.error(`Could not parse json response: ${raw}`);
+        throw e;
+      }
     }
 
     debug(`Result ${JSON.stringify(json)}`);
