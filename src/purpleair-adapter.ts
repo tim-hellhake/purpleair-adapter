@@ -141,19 +141,25 @@ export class PurpleairAdapter extends Adapter {
     for (const sensor of objects) {
       const {
         ID,
-        Label
+        Label,
+        Lat,
+        Lon
       } = sensor;
 
-      let device = this.devices[ID];
+      if (Lat && Lon) {
+        let device = this.devices[ID];
 
-      if (!device) {
-        console.log(`Creating device for ${Label} (${ID})`);
-        device = new Purpleair(this, sensor);
-        this.devices[ID] = device;
-        this.handleDeviceAdded(device);
+        if (!device) {
+          console.log(`Creating device for ${Label} (${ID})`);
+          device = new Purpleair(this, sensor);
+          this.devices[ID] = device;
+          this.handleDeviceAdded(device);
+        }
+
+        device.update(sensor);
+      } else {
+        debug(`Ignoring ${ID} because Lat & Lon are not present`);
       }
-
-      device.update(sensor);
     }
   }
 }
