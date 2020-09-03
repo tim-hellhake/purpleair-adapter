@@ -151,23 +151,30 @@ export class PurpleairAdapter extends Adapter {
         ID,
         Label,
         Lat,
-        Lon
+        Lon,
+        Type
       } = sensor;
 
-      if (Lat && Lon) {
-        let device = this.devices[ID];
-
-        if (!device) {
-          console.log(`Creating device for ${Label} (${ID})`);
-          device = new Purpleair(this, sensor);
-          this.devices[ID] = device;
-          this.handleDeviceAdded(device);
-        }
-
-        device.update(sensor);
-      } else {
+      if (!Lat && !Lon) {
         debug(`Ignoring ${ID} because Lat & Lon are not present`);
+        continue;
       }
+
+      if (Type != 0) {
+        debug(`Ignoring ${ID} because it's not an outdoor sensor`);
+        continue;
+      }
+
+      let device = this.devices[ID];
+
+      if (!device) {
+        console.log(`Creating device for ${Label} (${ID})`);
+        device = new Purpleair(this, sensor);
+        this.devices[ID] = device;
+        this.handleDeviceAdded(device);
+      }
+
+      device.update(sensor);
     }
   }
 }
