@@ -9,6 +9,7 @@
 import { Adapter, Device, Property } from 'gateway-addon';
 import GeoPoint from 'geopoint';
 import fetch from 'node-fetch';
+import { fromPM25 } from './aqi-calculator';
 
 let debug: (message?: any, ...optionalParams: any[]) => void = () => { }
 
@@ -26,25 +27,53 @@ class Purpleair extends Device {
     const key = 'pm_1';
 
     if (sensor[key]) {
-      this.updateProperty(key, 'PM2.5', sensor[key]);
+      const name = 'pm2_5';
+
+      this.updateProperty(
+        name,
+        () => {
+          const title = 'PM2.5';
+          debug(`Creating ${title} property for ${name} in ${this.name} (${this.id})`);
+
+          this["@type"].push('AirQualitySensor');
+
+          return this.createProperty(name, {
+            '@type': 'DensityProperty',
+            type: 'number',
+            title,
+            readOnly: true
+          })
+        },
+        sensor[key]);
+
+      const aqiName = 'us-epa-pm2_5-aqi';
+
+      this.updateProperty(
+        aqiName,
+        () => {
+          const title = 'AQI';
+          debug(`Creating ${title} property for ${aqiName} in ${this.name} (${this.id})`);
+
+          this["@type"].push('MultiLevelSensor');
+
+          return this.createProperty(aqiName, {
+            '@type': 'LevelProperty',
+            type: 'integer',
+            minimum: 0,
+            maximum: 500,
+            title,
+            readOnly: true
+          })
+        },
+        fromPM25(sensor[key]));
     }
   }
 
-  updateProperty(name: string, title: string, value: any) {
+  updateProperty(name: string, createProperty: () => Property, value: any) {
     let property = this.properties.get(name);
 
     if (!property) {
-      debug(`Creating ${title} property for ${name} in ${this.name} (${this.id})`);
-
-      this["@type"].push('AirQualitySensor');
-
-      property = this.createProperty(name, {
-        '@type': 'DensityProperty',
-        type: 'number',
-        title,
-        readOnly: true
-      });
-
+      property = createProperty();
       this.adapter.handleDeviceAdded(this);
     }
 

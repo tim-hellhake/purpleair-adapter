@@ -21,6 +21,7 @@
   "files": [
     "LICENSE",
     "SHA256SUMS",
+    "lib/aqi-calculator.js",
     "lib/index.js",
     "lib/purpleair-adapter.js",
     "manifest.json"
