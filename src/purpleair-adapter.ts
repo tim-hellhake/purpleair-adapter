@@ -130,7 +130,15 @@ export class PurpleairAdapter extends Adapter {
       return;
     }
 
-    const json: Result = await result.json();
+    const raw: string = await result.text();
+    let json: Result;
+
+    try {
+      json = JSON.parse(raw);
+    } catch (e) {
+      console.error(`Invalid json response: ${raw}`);
+      throw e;
+    }
 
     debug(`Result ${JSON.stringify(json)}`);
 
