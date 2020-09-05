@@ -24,9 +24,9 @@ class Purpleair extends Device {
   }
 
   update(sensor: any) {
-    const key = 'pm_1';
+    const pm25Key = 'pm_1';
 
-    if (sensor[key]) {
+    if (sensor[pm25Key]) {
       const name = 'pm2_5';
 
       this.updateProperty(
@@ -44,7 +44,7 @@ class Purpleair extends Device {
             readOnly: true
           })
         },
-        sensor[key]);
+        sensor[pm25Key]);
 
       const aqiName = 'us-epa-pm2_5-aqi';
 
@@ -65,7 +65,32 @@ class Purpleair extends Device {
             readOnly: true
           })
         },
-        fromPM25(sensor[key]));
+        fromPM25(sensor[pm25Key]));
+    }
+
+    const temperatureKey = 'Temperature';
+
+    if (sensor[temperatureKey]) {
+      const name = 'temperature';
+      const fahrenheit = sensor[temperatureKey];
+      const celsius = (fahrenheit - 32) * (5 / 9);
+
+      this.updateProperty(
+        name,
+        () => {
+          const title = 'Temperature';
+          debug(`Creating ${title} property for ${name} in ${this.name} (${this.id})`);
+
+          this["@type"].push('TemperatureSensor');
+
+          return this.createProperty(name, {
+            '@type': 'TemperatureProperty',
+            type: 'number',
+            title,
+            readOnly: true
+          })
+        },
+        celsius);
     }
   }
 
@@ -119,7 +144,7 @@ export class PurpleairAdapter extends Adapter {
   }
 
   private async poll(nwlat: any, selat: any, nwlng: any, selng: any) {
-    const url = `https://www.purpleair.com/data.json?opt=1/mAQI/a0/cC0&fetch=true&nwlat=${nwlat}&selat=${selat}&nwlng=${nwlng}&selng=${selng}&fields=pm_1`;
+    const url = `https://www.purpleair.com/data.json?opt=1/mAQI/a0/cC0&fetch=true&nwlat=${nwlat}&selat=${selat}&nwlng=${nwlng}&selng=${selng}&fields=pm_1,temperature`;
 
     debug(`Calling ${url}`);
 
