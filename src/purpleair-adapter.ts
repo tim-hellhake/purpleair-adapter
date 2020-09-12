@@ -214,9 +214,8 @@ export class PurpleairAdapter extends Adapter {
 function asObjects(result: Result) {
   const results = [];
 
-  for (let dataIndex = 0; dataIndex < result.fields.length; dataIndex++) {
+  for (const data of result.data) {
     const obj: { [key: string]: any } = {};
-    const data = result.data[dataIndex];
 
     for (let fieldIndex = 0; fieldIndex < result.fields.length; fieldIndex++) {
       obj[result.fields[fieldIndex]] = data[fieldIndex];
