@@ -92,6 +92,34 @@ class Purpleair extends Device {
         },
         celsius);
     }
+
+    const humidityKey = 'Humidity';
+
+    if (sensor[humidityKey]) {
+      const name = 'humidity';
+      const humidity = sensor[humidityKey];
+
+      this.updateProperty(
+        name,
+        () => {
+          const title = 'Humidity';
+          debug(`Creating ${title} property for ${name} in ${this.name} (${this.id})`);
+
+          this["@type"].push('HumiditySensor');
+
+          return this.createProperty(name, {
+            '@type': 'HumidityProperty',
+            type: 'number',
+            unit: '%',
+            minimum: 0,
+            maximum: 100,
+            multipleOf: 1,
+            title,
+            readOnly: true
+          })
+        },
+        humidity);
+    }
   }
 
   updateProperty(name: string, createProperty: () => Property, value: any) {
@@ -144,7 +172,7 @@ export class PurpleairAdapter extends Adapter {
   }
 
   private async poll(nwlat: any, selat: any, nwlng: any, selng: any) {
-    const url = `https://www.purpleair.com/data.json?opt=1/mAQI/a0/cC0&fetch=true&nwlat=${nwlat}&selat=${selat}&nwlng=${nwlng}&selng=${selng}&fields=pm_1,temperature`;
+    const url = `https://www.purpleair.com/data.json?opt=1/mAQI/a0/cC0&fetch=true&nwlat=${nwlat}&selat=${selat}&nwlng=${nwlng}&selng=${selng}&fields=pm_1,temperature,humidity`;
 
     debug(`Calling ${url}`);
 
