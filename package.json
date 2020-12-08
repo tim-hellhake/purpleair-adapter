@@ -1,7 +1,7 @@
 {
   "name": "purpleair-adapter",
   "display_name": "Purpleair",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Add purpleair sensor nodes to your gateway",
   "main": "lib/index.js",
   "scripts": {
