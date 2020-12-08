@@ -144,7 +144,7 @@ export class PurpleairAdapter extends Adapter {
   private devices: { [key: string]: Purpleair } = {};
 
   constructor(addonManager: any, private manifest: any) {
-    super(addonManager, PurpleairAdapter.name, manifest.id);
+    super(addonManager, PurpleairAdapter.name, manifest.name);
     addonManager.addAdapter(this);
     this.start();
   }
